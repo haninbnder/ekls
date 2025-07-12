@@ -1,1 +1,1 @@
-web: gunicorn scraplink.wsgi
+web: gunicorn scraplink.wsgi:application
