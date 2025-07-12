@@ -1,0 +1,13 @@
+{% extends "includes/base.html" %}
+{% block title %}إضافة طلب{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 600px; margin: 40px auto;">
+  <h2 class="text-center mb-4">إنشاء طلب جديد</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary w-100">حفظ الطلب</button>
+  </form>
+</div>
+{% endblock %}

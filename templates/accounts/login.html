@@ -1,0 +1,127 @@
+{% extends 'includes/base.html' %}
+
+{% block title %}تسجيل الدخول{% endblock %}
+
+{% block content %}
+<style>
+  .login-container {
+    max-width: 450px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ccc;
+    margin-top: 50px;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+  }
+
+  label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+  }
+
+  .otp-btn {
+    margin-top: 10px;
+    background: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .back-link {
+    margin-top: 15px;
+    text-align: center;
+  }
+
+  .back-link a {
+    color: #2196f3;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .message-error {
+    color: red;
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .message-success {
+    color: green;
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+</style>
+
+<div class="login-container">
+  <h2>تسجيل الدخول</h2>
+
+  {% if messages %}
+    {% for message in messages %}
+      <p class="message-{{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+
+    <label for="id_identifier">اسم المستخدم أو رقم الجوال</label>
+    {{ form.identifier }}
+
+    <button type="button" class="otp-btn" onclick="sendOTP()">إرسال رمز التحقق</button>
+
+    <label for="id_password">كلمة المرور</label>
+    {{ form.password }}
+
+    <button type="submit">دخول</button>
+  </form>
+
+  <div class="back-link">
+    <p>ليس لديك حساب؟ <a href="{% url 'accounts:register' %}">إنشاء حساب</a></p>
+  </div>
+</div>
+
+<script>
+  function sendOTP() {
+    const input = document.getElementById('id_identifier');
+    const identifier = input ? input.value : '';
+    if (/^05\d{8}$/.test(identifier)) {
+      alert("تم إرسال رمز التحقق إلى: " + identifier + " (واجهة فقط)");
+    } else {
+      alert("إذا كنت تدخل رقم جوال، يجب أن يبدأ بـ 05 ويتكون من 10 أرقام.");
+    }
+  }
+</script>
+{% endblock %}

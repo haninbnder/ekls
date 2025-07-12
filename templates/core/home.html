@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>الصفحة الرئيسية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: Tahoma, sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    .main {
+      padding: 40px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 32px;
+      color: #333;
+    }
+
+    p {
+      font-size: 18px;
+      color: #666;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .materials {
+      margin-top: 50px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 15px;
+    }
+
+    .card-content h3 {
+      color: #2196f3;
+      margin-bottom: 8px;
+    }
+
+    .card-content p {
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  {% include "includes/base_header.html" %}
+
+  <div class="main">
+    <h2>   منصة المعادن الثمينة       </h2>
+    <p>...................</p>
+
+    <div class="materials">
+      <div class="card">
+        <img src="/static/images/1.jpg" alt="نحاس">
+        <div class="card-content">
+          <h3>نحاس</h3>
+          <p>يُستخدم في الأسلاك والأجهزة الكهربائية القديمة ويُعاد تدويره بكفاءة عالية.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="/static/images/2.png" alt="ألمنيوم">
+        <div class="card-content">
+          <h3>ألمنيوم</h3>
+          <p>متوفر في علب العصائر والرديترات، مادة خفيفة وقابلة لإعادة التدوير بالكامل.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="/static/images/3.png" alt="رصاص">
+        <div class="card-content">
+          <h3>رصاص</h3>
+          <p>يتواجد في البطاريات المستعملة ويُعد من المواد الثقيلة القيّمة.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="/static/images/4.png" alt="حديد">
+        <div class="card-content">
+          <h3>حديد</h3>
+          <p>من أكثر المواد شيوعًا في الأجهزة والآلات المنزلية القديمة.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="/static/images/5.png" alt="ستيل ستيل">
+        <div class="card-content">
+          <h3>ستيل ستيل</h3>
+          <p>يستخدم في أدوات المطبخ والغلايات، مقاوم للصدأ وعالي الجودة.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="/static/images/6.png" alt="برونز">
+        <div class="card-content">
+          <h3>برونز</h3>
+          <p>مادة مميزة تُستخدم في الزينة والصنابير وبعض القطع الفنية.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="/static/images/7.png" alt="قصدير">
+        <div class="card-content">
+          <h3>قصدير</h3>
+          <p>يُستخرج غالبًا من العلب القديمة ويُستخدم في عدة صناعات دقيقة.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="/static/images/8.png" alt="بلاستيك">
+        <div class="card-content">
+          <h3>بلاستيك</h3>
+          <p>موجود في كل منزل، يُعاد تدويره ليُستخدم في العديد من المنتجات الجديدة.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include "includes/base_footer.html" %}
+
+</body>
+</html>

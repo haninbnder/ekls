@@ -1,0 +1,72 @@
+/* ✅ تحسين شريط العنوان العلوي في لوحة Jazzmin */
+.brand-link {
+    padding: 10px 15px !important;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    direction: rtl;
+    background-color: #1f1f1f; /* لون غامق أنيق */
+}
+
+.brand-link .brand-image {
+    max-height: 35px;
+    margin-left: 10px;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+.brand-link .brand-text {
+    font-weight: bold;
+    font-size: 16px;
+    color: #ffffff !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ✅ تحسين عرض معلومات المستخدم العلوي */
+.user-panel {
+    padding: 15px 10px;
+    direction: rtl;
+    background-color: #2c2c2c;
+}
+
+.user-panel .info {
+    color: #ffffff !important;
+    font-weight: bold;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-panel .image img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #aaa;
+}
+
+/* ✅ تحسين القائمة الجانبية */
+.main-sidebar {
+    direction: rtl;
+}
+
+/* ✅ تحسين خلفية المحتوى */
+.content-wrapper {
+    background-color: #f7f7f7;
+}
+
+/* ✅ تنسيق الخطوط للعناوين */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    direction: rtl;
+    text-align: right;
+    font-family: 'Cairo', 'Tahoma', sans-serif;
+}
+
+/* ✅ تطبيق الخط العام */
+body {
+    font-family: 'Cairo', 'Tahoma', sans-serif;
+}

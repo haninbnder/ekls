@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>معلومات الحساب</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Tahoma', sans-serif;
+      background-color: #eef2f7;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 50px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 35px;
+    }
+
+    .form-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      width: 180px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .form-group input,
+    .form-group select {
+      flex: 1;
+      padding: 10px;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      transition: border 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #2196f3;
+      outline: none;
+    }
+
+    .form-group.multiple {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding-top: 10px;
+    }
+
+    .form-check {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .form-check input[type="checkbox"] {
+      transform: scale(1.2);
+    }
+
+    .terms {
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .terms a {
+      color: #2196f3;
+      text-decoration: none;
+    }
+
+    .terms a:hover {
+      text-decoration: underline;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      background-color: #2196f3;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 25px;
+    }
+
+    button:hover {
+      background-color: #1a7cd6;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 15px;
+      color: #333;
+    }
+
+    .login-link a {
+      color: #2196f3;
+      font-weight: bold;
+      text-decoration: none;
+      margin-right: 5px;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  {% include "includes/base_header.html" %}
+
+  <div class="container">
+    <h2>معلومات الحساب</h2>
+    <form id="infoForm">
+
+      <!-- نوع الحساب -->
+      <div class="form-group">
+        <label for="account_type">نوع الحساب</label>
+        <select id="account_type" name="account_type" required>
+          <option value="">اختر نوع الحساب</option>
+          <option value="seller">بائع</option>
+          <option value="buyer">مشتري</option>
+        </select>
+      </div>
+
+      <!-- الاسم الكامل -->
+      <div class="form-group">
+        <label for="full_name">الاسم الكامل</label>
+        <input type="text" id="full_name" name="full_name" required>
+      </div>
+
+      <!-- رقم الجوال -->
+      <div class="form-group">
+        <label for="phone">رقم الجوال</label>
+        <input type="tel" id="phone" name="phone" placeholder="مثال: 0501234567" maxlength="10" required>
+      </div>
+
+      <!-- المنطقة -->
+      <div class="form-group">
+        <label for="region">المنطقة</label>
+        <input type="text" id="region" name="region" required>
+      </div>
+
+      <!-- الحي -->
+      <div class="form-group">
+        <label for="neighborhood">المدينة</label>
+        <input type="text" id="neighborhood" name="neighborhood" required>
+      </div>
+
+      <!-- أنواع المعادن -->
+      <div class="form-group multiple">
+        <label>هل أنت مهتم بنوع معين من المعادن؟</label>
+        <div class="checkbox-group">
+          <div class="form-check">
+            <input type="checkbox" id="all" name="metals" value="الكل">
+            <label for="all">الكل</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" id="copper" name="metals" value="نحاس">
+            <label for="copper">نحاس</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" id="aluminum" name="metals" value="ألمنيوم">
+            <label for="aluminum">ألمنيوم</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" id="lead" name="metals" value="رصاص">
+            <label for="lead">رصاص</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" id="iron" name="metals" value="حديد">
+            <label for="iron">حديد</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- الموافقة على الشروط -->
+      <div class="terms">
+        <input type="checkbox" id="terms" required>
+        <label for="terms">أوافق على <a href="#">الشروط والأحكام</a> و <a href="#">سياسة الخصوصية</a></label>
+      </div>
+
+      <button type="submit">إنشاء حساب</button>
+
+      <!-- رابط تسجيل الدخول -->
+      <div class="login-link">
+        <span>هل لديك حساب؟</span>
+        <a href="/login">تسجيل دخول</a>
+      </div>
+
+    </form>
+  </div>
+
+  {% include "includes/base_footer.html" %}
+
+  <script>
+    document.getElementById('infoForm').addEventListener('submit', function (e) {
+      const phone = document.getElementById('phone').value;
+      if (!/^05[0-9]{8}$/.test(phone)) {
+        alert('رقم الجوال يجب أن يبدأ بـ 05 ويتكون من 10 أرقام');
+        e.preventDefault();
+      }
+    });
+  </script>
+
+</body>
+</html>

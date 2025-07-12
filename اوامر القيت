@@ -1,0 +1,9 @@
+git add .
+git commit -m "8"
+git push -u origin master
+
+.\env\Scripts\activate البيئه
+
+اسم المستخدم وكلمة المرور 
+admin 
+hh1234567890

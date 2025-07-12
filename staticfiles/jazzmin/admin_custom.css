@@ -1,0 +1,119 @@
+/* ✅ جعل لوحة التحكم بالكامل LTR */
+body, .dashboard, .content, .dashboard-module {
+    direction: ltr !important;
+    text-align: left !important;
+    font-family: 'Cairo', 'Tahoma', sans-serif !important;
+}
+
+/* ✅ إبقاء النصوص داخل البطاقات بالعربية */
+.dashboard-module h2,
+.dashboard-module .model-title,
+.dashboard-module .model-options {
+    direction: rtl !important;
+    text-align: right !important;
+    font-weight: bold;
+    font-size: 16px;
+    color: #222;
+}
+
+/* ✅ جعل القائمة الجانبية مثبتة جهة اليمين ومنسدلة */
+.main-sidebar {
+    position: fixed !important;
+    top: 0;
+    right: 0 !important;
+    left: auto !important;
+    height: 100%;
+    width: 230px;
+    background-color: #2d2f36 !important;
+    z-index: 1030;
+    overflow-y: auto;
+    direction: rtl;
+    transition: all 0.3s ease;
+}
+
+/* ✅ تعديل حاويات المحتوى لتبتعد عن القائمة اليمنى */
+.content-wrapper,
+.main-header,
+.main-footer {
+    margin-right: 230px !important;
+    margin-left: 0 !important;
+    direction: rtl !important;
+    background-color: #f7f7f7;
+    transition: all 0.3s ease;
+}
+
+/* ✅ جعل عناصر الترويسة من اليسار */
+.main-header .navbar {
+    justify-content: flex-start !important;
+}
+
+/* ✅ تحسين شريط العنوان العلوي */
+.brand-link {
+    padding: 10px 15px !important;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #1f1f1f;
+    direction: rtl;
+}
+
+.brand-link .brand-image {
+    max-height: 35px;
+    margin-left: 10px;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+.brand-link .brand-text {
+    font-weight: bold;
+    font-size: 16px;
+    color: #ffffff !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ✅ تحسين عرض المستخدم */
+.user-panel {
+    padding: 15px 10px;
+    direction: rtl;
+    background-color: #2c2c2c;
+    text-align: right;
+}
+
+.user-panel .info {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #fff !important;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.user-panel .image img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #aaa;
+}
+
+/* ✅ دعم حالة القائمة المطوية */
+.sidebar-collapse .main-sidebar {
+    right: -230px !important;
+}
+
+.sidebar-collapse .content-wrapper,
+.sidebar-collapse .main-header,
+.sidebar-collapse .main-footer {
+    margin-right: 0 !important;
+}
+
+.sidebar-collapse .nav-link span {
+    display: none !important;
+}
+
+.sidebar-collapse .nav-link i {
+    margin: auto !important;
+    text-align: center;
+}

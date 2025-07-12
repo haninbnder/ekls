@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>إعلانات قيد المراجعة</title>
+</head>
+<body>
+    <h2>إعلانات قيد المراجعة</h2>
+    {% for listing in listings %}
+        <div style="border: 1px solid #ccc; margin: 10px; padding: 10px;">
+            <h3>{{ listing.title }}</h3>
+            <p>{{ listing.description }}</p>
+            <p>السعر: {{ listing.price }} ريال</p>
+            <a href="{% url 'listings:approve_listing' listing.pk %}">✔️ قبول</a> |
+            <a href="{% url 'listings:reject_listing' listing.pk %}">❌ رفض</a>
+        </div>
+    {% empty %}
+        <p>لا توجد إعلانات قيد المراجعة حالياً.</p>
+    {% endfor %}
+</body>
+</html>

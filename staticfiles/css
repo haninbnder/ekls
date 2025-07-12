@@ -1,0 +1,55 @@
+/* ✅ تحويل لوحة التحكم إلى LTR بالكامل */
+body, .dashboard, .content, .dashboard-module {
+    direction: ltr !important;
+    text-align: left !important;
+    font-family: 'Cairo', sans-serif !important;
+}
+
+/* ✅ إبقاء العناوين داخل البطاقات من اليمين */
+.dashboard-module h2,
+.dashboard-module .model-title,
+.dashboard-module .model-options {
+    direction: rtl !important;
+    text-align: right !important;
+    font-weight: bold;
+    font-size: 16px;
+    color: #222;
+}
+
+/* ✅ توسيط الأزرار وإعطاؤها مظهر أنيق */
+.dashboard-module .addlink, 
+.dashboard-module .changelink {
+    border-radius: 6px !important;
+    padding: 5px 12px !important;
+    font-weight: bold !important;
+    color: white !important;
+    margin: 3px;
+}
+
+.dashboard-module .addlink {
+    background-color: #28a745 !important;  /* أخضر */
+}
+
+.dashboard-module .changelink {
+    background-color: #007bff !important;  /* أزرق */
+}
+
+/* ✅ جعل الشريط الجانبي نفسه على اليسار */
+.sidebar, .main-sidebar {
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+/* ✅ ولكن نحافظ على النصوص العربية داخل الشريط الجانبي */
+.sidebar .nav-link, 
+.sidebar .nav-icon, 
+.brand-link, 
+.nav-header {
+    direction: rtl !important;
+    text-align: right !important;
+    font-size: 15px !important;
+    font-weight: bold !important;
+    color: #fff !important;
+    line-height: 1.8 !important;
+    white-space: normal !important;
+}
