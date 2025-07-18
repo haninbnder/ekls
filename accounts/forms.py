@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate
 from .models import CustomUser
 
 
-# نموذج تسجيل المستخدم
+# ✅ نموذج تسجيل المستخدم الجديد
 class UserRegisterForm(UserCreationForm):
     full_name = forms.CharField(
         label="الاسم الكامل",
@@ -64,3 +64,34 @@ class UserRegisterForm(UserCreationForm):
         if CustomUser.objects.filter(email=email).exists():
             raise forms.ValidationError("البريد الإلكتروني مستخدم مسبقًا")
         return email
+
+
+# ✅ نموذج تسجيل الدخول (Login)
+class UserLoginForm(forms.Form):
+    email = forms.EmailField(
+        label="البريد الإلكتروني",
+        widget=forms.EmailInput(attrs={
+            'placeholder': 'example@email.com',
+            'class': 'form-control'
+        })
+    )
+    password = forms.CharField(
+        label="كلمة المرور",
+        widget=forms.PasswordInput(attrs={
+            'placeholder': '********',
+            'class': 'form-control'
+        })
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        password = cleaned_data.get('password')
+
+        if email and password:
+            user = authenticate(email=email, password=password)
+            if not user:
+                raise forms.ValidationError("بيانات الدخول غير صحيحة")
+            if not user.is_active:
+                raise forms.ValidationError("هذا الحساب غير مفعل")
+        return cleaned_data
