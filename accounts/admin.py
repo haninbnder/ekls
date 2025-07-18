@@ -5,7 +5,7 @@ from django.db import models as django_models
 # ✅ تسجيل جميع الموديلات داخل التطبيق ما عدا المجردة
 for model_name in dir(models):
     model = getattr(models, model_name)
-    
+
     if (
         isinstance(model, type)
         and issubclass(model, django_models.Model)
@@ -16,3 +16,9 @@ for model_name in dir(models):
             admin.site.register(model)
         except admin.sites.AlreadyRegistered:
             pass  # تجاهل الموديلات المسجلة سابقًا
+
+# ✅ إضافة ويدجت المستخدمين الجدد في لوحة المشرف (Dashboard)
+from accounts.dashboard import get_recent_users
+
+admin.site.index_template = "admin/custom_index.html"
+admin.site.get_recent_users = get_recent_users

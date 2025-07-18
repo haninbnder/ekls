@@ -1,0 +1,5 @@
+{% extends "admin/index.html" %}
+{% block content %}
+  {{ site.get_recent_users|safe }}
+  {{ block.super }}
+{% endblock %}

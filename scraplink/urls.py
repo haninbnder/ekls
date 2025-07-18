@@ -25,7 +25,7 @@ urlpatterns = [
     path('listings/', include('listings.urls')),
     path('my-products/', include('userproducts.urls', namespace='userproducts')),
     path('orders/', include(('orders.urls', 'orders'), namespace='orders')),
-    path('', include('core.urls')),  # ← هنا يستدعي باقي صفحات core مثل home/contact/services
+    path('', include('core.urls')),  # ← يستدعي core.urls ومنها الصفحة الرئيسية
 ]
 
 # إعدادات media أثناء التطوير
