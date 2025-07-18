@@ -3,14 +3,14 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 from .models import CustomUser
 
-# 🔐 نموذج تسجيل المستخدم
+
+# نموذج تسجيل المستخدم
 class UserRegisterForm(UserCreationForm):
-    username = forms.CharField(
-        label="اسم المستخدم",
+    full_name = forms.CharField(
+        label="الاسم الكامل",
         max_length=150,
         widget=forms.TextInput(attrs={
-            'oninput': "checkUsernameAvailability(this.value);",
-            'placeholder': "اسم المستخدم",
+            'placeholder': "الاسم الكامل",
             'class': "form-control"
         })
     )
@@ -26,11 +26,25 @@ class UserRegisterForm(UserCreationForm):
         })
     )
 
+    email = forms.EmailField(
+        label="البريد الإلكتروني",
+        widget=forms.EmailInput(attrs={
+            'placeholder': 'example@email.com',
+            'class': 'form-control'
+        })
+    )
+
+    is_collector = forms.BooleanField(
+        required=False,
+        label="هل أنت مشتري؟",
+        widget=forms.CheckboxInput()
+    )
+
     class Meta:
         model = CustomUser
-        fields = ['username', 'phone_number', 'is_collector', 'password1', 'password2']
+        fields = ['email', 'phone_number', 'is_collector', 'password1', 'password2']
         labels = {
-            'username': 'اسم المستخدم',
+            'email': 'البريد الإلكتروني',
             'phone_number': 'رقم الجوال',
             'is_collector': 'هل أنت مشتري؟',
             'password1': 'كلمة المرور',
@@ -45,47 +59,8 @@ class UserRegisterForm(UserCreationForm):
             raise forms.ValidationError("رقم الجوال مستخدم مسبقًا")
         return phone
 
-    def clean_username(self):
-        username = self.cleaned_data.get('username')
-        if CustomUser.objects.filter(username=username).exists():
-            raise forms.ValidationError("اسم المستخدم غير متاح")
-        return username
-
-
-# 🔐 نموذج تسجيل الدخول باستخدام اسم المستخدم أو رقم الجوال
-class UserLoginForm(forms.Form):
-    identifier = forms.CharField(
-        label="اسم المستخدم أو رقم الجوال",
-        widget=forms.TextInput(attrs={
-            'placeholder': "ادخل اسم المستخدم أو رقم الجوال",
-            'class': "form-control"
-        })
-    )
-    password = forms.CharField(
-        label="كلمة المرور",
-        widget=forms.PasswordInput(attrs={
-            'placeholder': "كلمة المرور",
-            'class': "form-control"
-        })
-    )
-
-    def clean(self):
-        cleaned_data = super().clean()
-        identifier = cleaned_data.get('identifier')
-        password = cleaned_data.get('password')
-
-        if identifier and password:
-            try:
-                user = CustomUser.objects.get(phone_number=identifier)
-                username = user.username
-            except CustomUser.DoesNotExist:
-                username = identifier  # إذا لم يكن رقم جوال، نعتبره اسم مستخدم
-
-            user = authenticate(username=username, password=password)
-            if user is None:
-                raise forms.ValidationError("بيانات الدخول غير صحيحة")
-            self.user = user
-        return cleaned_data
-
-    def get_user(self):
-        return getattr(self, 'user', None)
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if CustomUser.objects.filter(email=email).exists():
+            raise forms.ValidationError("البريد الإلكتروني مستخدم مسبقًا")
+        return email
