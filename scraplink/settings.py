@@ -44,7 +44,7 @@ JAZZMIN_SETTINGS = {
     "site_brand": "SKRAP LINK",
     "welcome_sign": "مرحباً بك في لوحة التحكم",
     "copyright": "جميع الحقوق محفوظة © 2025",
-    "site_logo": "/static/images/logo.png",  # ✅ مسار static
+    "site_logo": "/static/images/logo.png",
     "site_icon": "/static/images/logo.png",
     "login_logo": "/static/images/logo.png",
     "login_logo_dark": "/static/images/logo.png",
@@ -90,7 +90,7 @@ JAZZMIN_SETTINGS = {
 # -------------------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",  # ✅ لتقديم static
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "listings.middleware.ForceArabicMiddleware",
     "django.middleware.locale.LocaleMiddleware",
@@ -167,7 +167,6 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-# لخدمة static مضغوطة
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # -------------------------------
@@ -177,6 +176,11 @@ AUTH_USER_MODEL = "accounts.CustomUser"
 LOGIN_REDIRECT_URL = "/services/"
 LOGOUT_REDIRECT_URL = "/login/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# -------------------------------
+# إعدادات البريد (للتجربة عبر الكونسول)
+# -------------------------------
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # -------------------------------
 # أمان
