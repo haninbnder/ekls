@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
-# ✅ مدير مخصص لإنشاء المستخدمين
+# ✅ مدير مخصص لإنشاء المستخدمين والمستخدمين الإداريين
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, phone_number, password=None, **extra_fields):
         if not email:
@@ -31,7 +31,12 @@ class CustomUserManager(BaseUserManager):
 
 # ✅ موديل المستخدم المخصص
 class CustomUser(AbstractUser):
-    username = None  # حذف حقل username
+    username = None  # حذف حقل اسم المستخدم التقليدي
+
+    email = models.EmailField(
+        unique=True,
+        verbose_name="البريد الإلكتروني"
+    )
 
     phone_number = models.CharField(
         max_length=10,
@@ -44,15 +49,10 @@ class CustomUser(AbstractUser):
         verbose_name="هل أنت مشتري؟"
     )
 
-    email = models.EmailField(
-        unique=True,
-        verbose_name="البريد الإلكتروني"
-    )
+    USERNAME_FIELD = 'email'  # تسجيل الدخول بالبريد
+    REQUIRED_FIELDS = ['phone_number']  # مطلوب عند إنشاء superuser
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['phone_number']
-
-    objects = CustomUserManager()  # ربط المدير المخصص
+    objects = CustomUserManager()  # تعيين المدير المخصص
 
     def __str__(self):
         return self.email

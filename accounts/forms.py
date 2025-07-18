@@ -5,15 +5,6 @@ from .models import CustomUser
 
 # 🔐 نموذج تسجيل المستخدم
 class UserRegisterForm(UserCreationForm):
-    email = forms.EmailField(
-        label="البريد الإلكتروني",
-        max_length=254,
-        widget=forms.EmailInput(attrs={
-            'placeholder': "example@email.com",
-            'class': "form-control"
-        })
-    )
-
     username = forms.CharField(
         label="اسم المستخدم",
         max_length=150,
@@ -37,9 +28,8 @@ class UserRegisterForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ['email', 'username', 'phone_number', 'is_collector', 'password1', 'password2']
+        fields = ['username', 'phone_number', 'is_collector', 'password1', 'password2']
         labels = {
-            'email': 'البريد الإلكتروني',
             'username': 'اسم المستخدم',
             'phone_number': 'رقم الجوال',
             'is_collector': 'هل أنت مشتري؟',
@@ -62,12 +52,12 @@ class UserRegisterForm(UserCreationForm):
         return username
 
 
-# 🔐 نموذج تسجيل الدخول باستخدام البريد الإلكتروني أو رقم الجوال أو اسم المستخدم
+# 🔐 نموذج تسجيل الدخول باستخدام اسم المستخدم أو رقم الجوال
 class UserLoginForm(forms.Form):
     identifier = forms.CharField(
-        label="البريد الإلكتروني أو اسم المستخدم أو رقم الجوال",
+        label="اسم المستخدم أو رقم الجوال",
         widget=forms.TextInput(attrs={
-            'placeholder': "ادخل البريد الإلكتروني أو اسم المستخدم أو رقم الجوال",
+            'placeholder': "ادخل اسم المستخدم أو رقم الجوال",
             'class': "form-control"
         })
     )
@@ -89,11 +79,7 @@ class UserLoginForm(forms.Form):
                 user = CustomUser.objects.get(phone_number=identifier)
                 username = user.username
             except CustomUser.DoesNotExist:
-                try:
-                    user = CustomUser.objects.get(email=identifier)
-                    username = user.username
-                except CustomUser.DoesNotExist:
-                    username = identifier  # اسم مستخدم كافتراضي
+                username = identifier  # إذا لم يكن رقم جوال، نعتبره اسم مستخدم
 
             user = authenticate(username=username, password=password)
             if user is None:
