@@ -52,16 +52,23 @@ def login_view(request):
 
 
 # 🔓 تسجيل الخروج
-def logout_view(request):
-    logout(request)
-    messages.info(request, "🟢 تم تسجيل الخروج بنجاح.")
-    return redirect(reverse('accounts:login'))
+def login_view(request):
+    if request.method == 'POST':
+        form = UserLoginForm(data=request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
 
+            user = authenticate(email=email, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, "✅ تم تسجيل الدخول بنجاح.")
+                return redirect(reverse('core:about'))  # عدّل المسار حسب الحاجة
+            else:
+                messages.error(request, "❌ البريد الإلكتروني أو كلمة المرور غير صحيحة.")
+        else:
+            messages.error(request, "❌ يرجى التأكد من صحة البيانات.")
+    else:
+        form = UserLoginForm()
 
-# 🧪 عرض المستخدمين (اختياري لأغراض الاختبار)
-def list_users_view(request):
-    User = get_user_model()
-    users = User.objects.all().values(
-        "email", "phone_number", "username", "is_collector", "region", "neighborhood", "date_joined"
-    )
-    return JsonResponse(list(users), safe=False)
+    return render(request, 'accounts/login.html', {'form': form})
