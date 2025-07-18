@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    # تطبيقات المشروع
     "accounts",
     "appointments",
     "listings",
@@ -53,14 +55,8 @@ JAZZMIN_SETTINGS = {
     "dark_mode_theme": "darkly",
     "navigation_expanded": False,
     "order_with_respect_to": [
-        "core",
-        "accounts",
-        "listings",
-        "appointments",
-        "userproducts",
-        "orders",
-        "useritems",
-        "user_devices",
+        "core", "accounts", "listings", "appointments",
+        "userproducts", "orders", "useritems", "user_devices",
     ],
     "icons": {
         "core.Location": "fas fa-map-marker-alt",
@@ -101,6 +97,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+# -------------------------------
+# قوالب
+# -------------------------------
 ROOT_URLCONF = "scraplink.urls"
 
 TEMPLATES = [
@@ -173,12 +172,17 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # مصادقة ومسارات
 # -------------------------------
 AUTH_USER_MODEL = "accounts.CustomUser"
-LOGIN_REDIRECT_URL = "/services/"
-LOGOUT_REDIRECT_URL = "/login/"
+
+# ✅ بعد تسجيل الدخول
+LOGIN_REDIRECT_URL = "/"
+
+# ✅ بعد تسجيل الخروج
+LOGOUT_REDIRECT_URL = "/accounts/login/"
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # -------------------------------
-# إعدادات البريد (للتجربة عبر الكونسول)
+# إعدادات البريد (للتجربة)
 # -------------------------------
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
