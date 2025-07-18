@@ -18,6 +18,7 @@ def register_view(request):
             messages.success(request, "تم إنشاء الحساب بنجاح. يمكنك تسجيل الدخول الآن.")
             return redirect(reverse('accounts:login'))
         else:
+            print("❌ أخطاء التسجيل:", form.errors)  # ← هذا السطر يطبع تفاصيل الخطأ في اللوغ
             messages.error(request, "تحقق من البيانات المدخلة.")
     else:
         form = UserRegisterForm()
