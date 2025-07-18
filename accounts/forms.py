@@ -42,8 +42,9 @@ class UserRegisterForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ['email', 'phone_number', 'is_collector', 'password1', 'password2']
+        fields = ['full_name', 'email', 'phone_number', 'is_collector', 'password1', 'password2']
         labels = {
+            'full_name': 'الاسم الكامل',
             'email': 'البريد الإلكتروني',
             'phone_number': 'رقم الجوال',
             'is_collector': 'هل أنت مشتري؟',
@@ -65,8 +66,15 @@ class UserRegisterForm(UserCreationForm):
             raise forms.ValidationError("البريد الإلكتروني مستخدم مسبقًا")
         return email
 
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.full_name = self.cleaned_data.get('full_name')
+        if commit:
+            user.save()
+        return user
 
-# ✅ نموذج تسجيل الدخول (Login)
+
+# ✅ نموذج تسجيل الدخول
 class UserLoginForm(forms.Form):
     email = forms.EmailField(
         label="البريد الإلكتروني",
