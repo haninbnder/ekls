@@ -33,22 +33,23 @@ def register_view(request):
     return render(request, 'accounts/register.html', {'form': form})
 
 
-# 🔐 تسجيل الدخول
+# 🔐 تسجيل الدخول بالبريد أو رقم الجوال
 def login_view(request):
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data['email']
+            username = form.cleaned_data['username']
             password = form.cleaned_data['password']
 
-            user = authenticate(request, email=email, password=password)
+            user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
                 messages.success(request, "✅ تم تسجيل الدخول بنجاح.")
-                return redirect(reverse('core:about'))  # عدل الوجهة النهائية حسب مشروعك
+                return redirect(reverse('core:about'))  # ← عدل الوجهة حسب مشروعك
             else:
-                messages.error(request, "❌ البريد الإلكتروني أو كلمة المرور غير صحيحة.")
+                messages.error(request, "❌ فشل في تسجيل الدخول. تحقق من البيانات.")
         else:
+            print("❌ أخطاء تسجيل الدخول:", form.errors)
             messages.error(request, "❌ يرجى التأكد من صحة البيانات.")
     else:
         form = UserLoginForm()

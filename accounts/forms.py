@@ -74,15 +74,16 @@ class UserRegisterForm(UserCreationForm):
         return user
 
 
-# ✅ نموذج تسجيل الدخول
+# ✅ نموذج تسجيل الدخول بالبريد أو الجوال
 class UserLoginForm(forms.Form):
-    email = forms.EmailField(
-        label="البريد الإلكتروني",
-        widget=forms.EmailInput(attrs={
-            'placeholder': 'example@email.com',
+    username = forms.CharField(
+        label="البريد الإلكتروني أو رقم الجوال",
+        widget=forms.TextInput(attrs={
+            'placeholder': 'example@email.com أو 0501234567',
             'class': 'form-control'
         })
     )
+
     password = forms.CharField(
         label="كلمة المرور",
         widget=forms.PasswordInput(attrs={
@@ -93,11 +94,11 @@ class UserLoginForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        email = cleaned_data.get('email')
+        username = cleaned_data.get('username')
         password = cleaned_data.get('password')
 
-        if email and password:
-            user = authenticate(email=email, password=password)
+        if username and password:
+            user = authenticate(username=username, password=password)
             if not user:
                 raise forms.ValidationError("بيانات الدخول غير صحيحة")
             if not user.is_active:

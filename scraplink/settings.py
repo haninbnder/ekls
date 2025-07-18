@@ -179,6 +179,12 @@ LOGIN_REDIRECT_URL = "/"
 # ✅ بعد تسجيل الخروج
 LOGOUT_REDIRECT_URL = "/accounts/login/"
 
+# ✅ تسجيل الدخول باستخدام البريد أو الجوال
+AUTHENTICATION_BACKENDS = [
+    "accounts.backends.EmailOrPhoneBackend",         # ← مخصص لتسجيل الدخول بالبريد أو الجوال
+    "django.contrib.auth.backends.ModelBackend",     # ← الافتراضي (احتياطي)
+]
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # -------------------------------
@@ -195,5 +201,4 @@ CSRF_COOKIE_SECURE = os.getenv("CSRF_COOKIE_SECURE", "False") == "True"
 SECURE_HSTS_SECONDS = int(os.getenv("SECURE_HSTS_SECONDS", 0))
 SECURE_HSTS_INCLUDE_SUBDOMAINS = os.getenv("SECURE_HSTS_INCLUDE_SUBDOMAINS", "False") == "True"
 SECURE_HSTS_PRELOAD = os.getenv("SECURE_HSTS_PRELOAD", "False") == "True"
-
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
