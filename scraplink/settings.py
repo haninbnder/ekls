@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 # تحميل متغيرات البيئة من ملف .env
 load_dotenv()
 
-# المسار الجذري للمشروع
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # -------------------------------
@@ -26,7 +25,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # تطبيقات المشروع
     "accounts",
     "appointments",
     "listings",
@@ -46,10 +44,10 @@ JAZZMIN_SETTINGS = {
     "site_brand": "SKRAP LINK",
     "welcome_sign": "مرحباً بك في لوحة التحكم",
     "copyright": "جميع الحقوق محفوظة © 2025",
-    "site_logo": "images/logo.png",
-    "site_icon": "images/logo.png",
-    "login_logo": "images/logo.png",
-    "login_logo_dark": "images/logo.png",
+    "site_logo": "/static/images/logo.png",  # ✅ مسار static
+    "site_icon": "/static/images/logo.png",
+    "login_logo": "/static/images/logo.png",
+    "login_logo_dark": "/static/images/logo.png",
     "site_logo_classes": "img-circle elevation-2",
     "theme": "darkly",
     "dark_mode_theme": "darkly",
@@ -79,7 +77,7 @@ JAZZMIN_SETTINGS = {
     "hide_apps": [],
     "hide_models": [],
     "changeform_format": "horizontal_tabs",
-    "custom_css": "jazzmin/admin_custom.css",
+    "custom_css": "/static/jazzmin/admin_custom.css",
     "custom_js": None,
     "related_modal_active": False,
     "use_google_fonts_cdn": True,
@@ -92,6 +90,7 @@ JAZZMIN_SETTINGS = {
 # -------------------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # ✅ لتقديم static
     "django.contrib.sessions.middleware.SessionMiddleware",
     "listings.middleware.ForceArabicMiddleware",
     "django.middleware.locale.LocaleMiddleware",
@@ -137,7 +136,7 @@ DATABASES = {
 }
 
 # -------------------------------
-# التحقق من كلمات المرور
+# تحقق كلمة المرور
 # -------------------------------
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
@@ -159,7 +158,7 @@ LANGUAGES = [("ar", "العربية")]
 LOCALE_PATHS = [BASE_DIR / "locale"]
 
 # -------------------------------
-# ملفات static/media
+# static/media
 # -------------------------------
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
@@ -168,8 +167,11 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+# لخدمة static مضغوطة
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 # -------------------------------
-# المستخدم المخصص والمسارات
+# مصادقة ومسارات
 # -------------------------------
 AUTH_USER_MODEL = "accounts.CustomUser"
 LOGIN_REDIRECT_URL = "/services/"
@@ -177,7 +179,7 @@ LOGOUT_REDIRECT_URL = "/login/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # -------------------------------
-# إعدادات أمان HTTPS (مهمة للرندر)
+# أمان
 # -------------------------------
 SECURE_SSL_REDIRECT = os.getenv("SECURE_SSL_REDIRECT", "False") == "True"
 SESSION_COOKIE_SECURE = os.getenv("SESSION_COOKIE_SECURE", "False") == "True"
@@ -186,5 +188,4 @@ SECURE_HSTS_SECONDS = int(os.getenv("SECURE_HSTS_SECONDS", 0))
 SECURE_HSTS_INCLUDE_SUBDOMAINS = os.getenv("SECURE_HSTS_INCLUDE_SUBDOMAINS", "False") == "True"
 SECURE_HSTS_PRELOAD = os.getenv("SECURE_HSTS_PRELOAD", "False") == "True"
 
-# مهم للرندر خلف proxy
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

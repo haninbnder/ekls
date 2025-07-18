@@ -3,8 +3,10 @@ services:
     name: ekls
     env: python
     plan: free
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn scraplink.wsgi"
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+    startCommand: gunicorn scraplink.wsgi
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: scraplink.settings
