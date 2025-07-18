@@ -2,8 +2,8 @@ from django.urls import path
 from .views import (
     register_view,
     login_view,
-    logout_view,
     list_users_view,
+    # logout_view,  # ← مؤقتًا نحذفه لأنه يسبب ImportError
     # password_reset_view,  # ← لاحقًا لو فعلتِ استرجاع كلمة المرور
 )
 
@@ -15,9 +15,6 @@ urlpatterns = [
 
     # 🔐 تسجيل الدخول
     path("login/", login_view, name="login"),
-
-    # 🔓 تسجيل الخروج
-    path("logout/", logout_view, name="logout"),
 
     # 🐛 API مؤقت لعرض المستخدمين (لتجربة على Render مثلاً)
     path("debug/users/", list_users_view, name="list_users"),
