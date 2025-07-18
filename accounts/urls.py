@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import register_view, login_view, logout_view
+from .views import register_view, login_view, logout_view, list_users_view
 
 app_name = 'accounts'  # لتفعيل namespacing عند استخدام reverse أو {% url %}
 
@@ -12,6 +12,9 @@ urlpatterns = [
 
     # تسجيل الخروج
     path('logout/', logout_view, name='logout'),
+
+    # ✅ عرض المستخدمين (فقط للتجربة والتحقق على السيرفر)
+    path('debug/users/', list_users_view, name='list_users'),
 
     # ✔️ ملاحظة مستقبلية: استعادة كلمة المرور
     # يمكن تفعيلها لاحقًا بسهولة باستخدام auth_views
