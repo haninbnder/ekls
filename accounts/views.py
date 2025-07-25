@@ -22,7 +22,7 @@ def register_view(request):
 
             user.save()
             messages.success(request, "✅ تم إنشاء الحساب بنجاح. يمكنك تسجيل الدخول الآن.")
-            return redirect(reverse('accounts:login'))  # ✅ باستخدام namespace
+            return redirect(reverse('accounts:login'))
         else:
             print("❌ أخطاء التسجيل:", form.errors)
             messages.error(request, "❌ يوجد أخطاء في البيانات. تأكد من تعبئة الحقول بشكل صحيح.")
@@ -32,20 +32,19 @@ def register_view(request):
     return render(request, 'accounts/register.html', {'form': form})
 
 
-# 🔐 تسجيل الدخول بالبريد أو رقم الجوال
+# 🔐 تسجيل الدخول بالبريد الإلكتروني
 def login_view(request):
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
+            username = form.cleaned_data.get('username')  # استخدم "username" لأنه هو المستخدم في الفورم
+            password = form.cleaned_data.get('password')
 
-            # ✅ دعم البريد الإلكتروني أو رقم الجوال
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
                 messages.success(request, "✅ تم تسجيل الدخول بنجاح.")
-                return redirect(reverse('core:home'))  # تحويل المستخدم للصفحة الرئيسية
+                return redirect(reverse('core:home'))
             else:
                 messages.error(request, "❌ بيانات الدخول غير صحيحة.")
         else:
