@@ -12,15 +12,24 @@
       color: #333;
     }
 
-    /* الشريط العلوي */
     header {
       background-color: #2196f3;
       color: white;
-      padding: 20px;
+      padding: 25px 10px;
       text-align: center;
     }
 
-    /* المحتوى */
+    nav {
+      margin-top: 15px;
+    }
+
+    nav a {
+      margin: 0 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 17px;
+    }
+
     main {
       padding: 40px 20px;
       text-align: center;
@@ -36,7 +45,6 @@
       color: #555;
     }
 
-    /* الشريط السفلي */
     footer {
       background-color: #222;
       color: white;
@@ -53,6 +61,12 @@
   <!-- الشريط العلوي -->
   <header>
     <h1>منصة تدوير المعادن</h1>
+    <nav>
+      <a href="/">الرئيسية</a>
+      <a href="/services/">الخدمات</a>
+      <a href="/accounts/register/">التسجيل</a>
+      <a href="/contact/">تواصل معنا</a>
+    </nav>
   </header>
 
   <!-- المحتوى الرئيسي -->
@@ -66,9 +80,7 @@
     &copy; 2025 جميع الحقوق محفوظة - ScrapLink
   </footer>
 
-  <!-- جافاسكربت (في حال رغبت بإضافات مستقبلية) -->
   <script>
-    // يمكن إضافة إشعارات أو وظائف هنا لاحقًا
     console.log("تم تحميل صفحة الخدمات بنجاح.");
   </script>
 </body>
