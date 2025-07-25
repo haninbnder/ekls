@@ -34,18 +34,6 @@
     font-size: 15px;
   }
 
-  .otp-btn {
-    margin-top: 10px;
-    background: #4caf50;
-    color: white;
-    border: none;
-    padding: 10px;
-    width: 100%;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-
   button[type="submit"] {
     width: 100%;
     padding: 12px;
@@ -97,10 +85,8 @@
   <form method="post" novalidate>
     {% csrf_token %}
 
-    <label for="id_username">اسم المستخدم أو رقم الجوال</label>
-    {{ form.username }}
-
-    <button type="button" class="otp-btn" onclick="sendOTP()">إرسال رمز التحقق</button>
+    <label for="id_email">البريد الإلكتروني</label>
+    <input type="email" name="username" id="id_email" required>
 
     <label for="id_password">كلمة المرور</label>
     {{ form.password }}
@@ -112,16 +98,4 @@
     <p>ليس لديك حساب؟ <a href="{% url 'accounts:register' %}">إنشاء حساب</a></p>
   </div>
 </div>
-
-<script>
-  function sendOTP() {
-    const input = document.getElementById('id_username');
-    const identifier = input ? input.value : '';
-    if (/^05\d{8}$/.test(identifier)) {
-      alert("تم إرسال رمز التحقق إلى: " + identifier + " (واجهة فقط)");
-    } else {
-      alert("إذا كنت تدخل رقم جوال، يجب أن يبدأ بـ 05 ويتكون من 10 أرقام.");
-    }
-  }
-</script>
 {% endblock %}

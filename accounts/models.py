@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -29,31 +29,21 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, phone_number, password, **extra_fields)
 
 
-# ✅ موديل المستخدم المخصص
-class CustomUser(AbstractUser):
-    username = None  # حذف حقل اسم المستخدم التقليدي
+# ✅ موديل المستخدم المخصص بالبريد فقط
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(unique=True, verbose_name="البريد الإلكتروني")
+    phone_number = models.CharField(max_length=10, unique=True, verbose_name="رقم الجوال")
+    full_name = models.CharField(max_length=150, verbose_name="الاسم الكامل")
+    is_collector = models.BooleanField(default=False, verbose_name="هل أنت مشتري؟")
 
-    email = models.EmailField(
-        unique=True,
-        verbose_name="البريد الإلكتروني"
-    )
-
-    phone_number = models.CharField(
-        max_length=10,
-        unique=True,
-        verbose_name="رقم الجوال"
-    )
-
-    is_collector = models.BooleanField(
-        default=False,
-        verbose_name="هل أنت مشتري؟"
-    )
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['full_name', 'phone_number']
+    REQUIRED_FIELDS = ['phone_number', 'full_name']
 
-
-    objects = CustomUserManager()  # تعيين المدير المخصص
+    objects = CustomUserManager()
 
     def __str__(self):
         return self.email
