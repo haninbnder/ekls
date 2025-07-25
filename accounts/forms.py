@@ -98,9 +98,26 @@ class UserLoginForm(forms.Form):
         password = cleaned_data.get('password')
 
         if username and password:
-            user = authenticate(username=username, password=password)
+            user = None
+            if '@' in username:
+                # تسجيل الدخول بالبريد الإلكتروني
+                try:
+                    actual_user = CustomUser.objects.get(email=username)
+                    user = authenticate(username=actual_user.email, password=password)
+                except CustomUser.DoesNotExist:
+                    pass
+            elif username.startswith('05'):
+                # تسجيل الدخول برقم الجوال
+                try:
+                    actual_user = CustomUser.objects.get(phone_number=username)
+                    user = authenticate(username=actual_user.email, password=password)
+                except CustomUser.DoesNotExist:
+                    pass
+
             if not user:
                 raise forms.ValidationError("بيانات الدخول غير صحيحة")
             if not user.is_active:
                 raise forms.ValidationError("هذا الحساب غير مفعل")
+            self.user = user
+
         return cleaned_data
