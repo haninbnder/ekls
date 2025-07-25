@@ -59,4 +59,5 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     messages.info(request, "🧾 تم تسجيل الخروج بنجاح.")
-    return redirect('/accounts/login/')  # ✅ تحويل لصفحة تسجيل الدخول
+    return redirect('/')
+

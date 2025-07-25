@@ -9,25 +9,25 @@ from listings.views import add_product
 from core.views import about_view, sales_view
 
 urlpatterns = [
-    # لوحة تحكم Django
+    # 🛠️ لوحة التحكم
     path("admin/", admin.site.urls),
 
-    # روابط مباشرة من العروض (بدون include)
+    # 🎯 روابط مباشرة (تخطي include)
     path("login/", login_view, name="direct_login"),
     path("add-product/", add_product, name="direct_add_product"),
     path("sales/", sales_view, name="sales"),
     path("about/", about_view, name="about"),
 
-    # روابط التطبيقات باستخدام include مع namespace
+    # 🧩 روابط التطبيقات (مع namespace)
     path("accounts/", include(("accounts.urls", "accounts"), namespace="accounts")),
     path("listings/", include(("listings.urls", "listings"), namespace="listings")),
     path("my-products/", include(("userproducts.urls", "userproducts"), namespace="userproducts")),
     path("orders/", include(("orders.urls", "orders"), namespace="orders")),
 
-    # الصفحة الرئيسية
+    # 🏠 الصفحة الرئيسية (core)
     path("", include(("core.urls", "core"), namespace="core")),
 ]
 
-# 🔧 خدمة ملفات الميديا أثناء التطوير فقط
+# 📦 ملفات الميديا أثناء التطوير
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
