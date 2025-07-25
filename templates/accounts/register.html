@@ -1,29 +1,104 @@
 {% extends 'includes/base.html' %}
 
-{% block title %}تواصل معنا{% endblock %}
+{% block title %}إنشاء حساب{% endblock %}
 
 {% block content %}
-<div style="max-width: 500px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px #ccc; text-align: center;">
-  <h2 style="margin-bottom: 25px;">📞 تواصل معنا</h2>
+<style>
+  .register-container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ccc;
+    margin-top: 40px;
+  }
 
-  <a href="tel:0532207275" style="display: block; background: #4caf50; color: white; padding: 12px; margin: 10px 0; border-radius: 8px; text-decoration: none;">
-    📱 الاتصال الهاتفي: 0532207275
-  </a>
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+  }
 
-  <a href="mailto:example@example.com" style="display: block; background: #2196f3; color: white; padding: 12px; margin: 10px 0; border-radius: 8px; text-decoration: none;">
-    📧 البريد الإلكتروني
-  </a>
+  label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+  }
 
-  <a href="https://wa.me/966532207275" target="_blank" style="display: block; background: #25d366; color: white; padding: 12px; margin: 10px 0; border-radius: 8px; text-decoration: none;">
-    💬 واتساب: 0532207275
-  </a>
+  input, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+  }
 
-  <a href="#" target="_blank" style="display: block; background: #fffc00; color: black; padding: 12px; margin: 10px 0; border-radius: 8px; text-decoration: none;">
-    👻 سناب شات
-  </a>
+  .form-check {
+    margin: 10px 0;
+  }
 
-  <a href="#" target="_blank" style="display: block; background: black; color: white; padding: 12px; margin: 10px 0; border-radius: 8px; text-decoration: none;">
-    𝕏 حساب X
-  </a>
+  .form-check label {
+    font-weight: normal;
+  }
+
+  button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .back-link {
+    margin-top: 15px;
+    text-align: center;
+  }
+
+  .back-link a {
+    color: #2196f3;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .message-error {
+    color: red;
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .message-success {
+    color: green;
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+</style>
+
+<div class="register-container">
+  <h2>معلومات الحساب</h2>
+
+  {% if messages %}
+    {% for message in messages %}
+      <p class="message-{{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">إنشاء حساب</button>
+  </form>
+
+  <div class="back-link">
+    <p>هل لديك حساب؟ <a href="{% url 'accounts:login' %}">تسجيل دخول</a></p>
+  </div>
 </div>
 {% endblock %}
