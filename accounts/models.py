@@ -49,8 +49,9 @@ class CustomUser(AbstractUser):
         verbose_name="هل أنت مشتري؟"
     )
 
-    USERNAME_FIELD = 'email'  # تسجيل الدخول بالبريد
-    REQUIRED_FIELDS = ['phone_number']  # مطلوب عند إنشاء superuser
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['full_name', 'phone_number']
+
 
     objects = CustomUserManager()  # تعيين المدير المخصص
 
