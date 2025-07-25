@@ -97,8 +97,8 @@
   <form method="post" novalidate>
     {% csrf_token %}
 
-    <label for="id_identifier">اسم المستخدم أو رقم الجوال</label>
-    {{ form.identifier }}
+    <label for="id_username">اسم المستخدم أو رقم الجوال</label>
+    {{ form.username }}
 
     <button type="button" class="otp-btn" onclick="sendOTP()">إرسال رمز التحقق</button>
 
@@ -115,7 +115,7 @@
 
 <script>
   function sendOTP() {
-    const input = document.getElementById('id_identifier');
+    const input = document.getElementById('id_username');
     const identifier = input ? input.value : '';
     if (/^05\d{8}$/.test(identifier)) {
       alert("تم إرسال رمز التحقق إلى: " + identifier + " (واجهة فقط)");

@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.urls import reverse
 from django.contrib.auth import get_user_model
-
 from .forms import UserRegisterForm, UserLoginForm
 
 User = get_user_model()
@@ -23,7 +21,7 @@ def register_view(request):
 
             user.save()
             messages.success(request, "✅ تم إنشاء الحساب بنجاح. يمكنك تسجيل الدخول الآن.")
-            return redirect(reverse('accounts:login'))  # ✅ تحويل مباشر لصفحة تسجيل الدخول
+            return redirect('/accounts/login/')  # ✅ توجيه مباشر لصفحة تسجيل الدخول
         else:
             print("❌ أخطاء التسجيل:", form.errors)
             messages.error(request, "❌ يوجد أخطاء في البيانات. تأكد من تعبئة الحقول بشكل صحيح.")
@@ -45,7 +43,7 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, "✅ تم تسجيل الدخول بنجاح.")
-                return redirect(reverse('core:about'))  # ← غيّري الوجهة حسب ما يناسب مشروعك
+                return redirect('/')  # ✅ تحويل المستخدم إلى الصفحة الرئيسية
             else:
                 messages.error(request, "❌ فشل في تسجيل الدخول. تحقق من البيانات.")
         else:
@@ -61,4 +59,4 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     messages.info(request, "🧾 تم تسجيل الخروج بنجاح.")
-    return redirect(reverse('accounts:login'))
+    return redirect('/accounts/login/')  # ✅ تحويل لصفحة تسجيل الدخول

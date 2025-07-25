@@ -86,7 +86,7 @@ JAZZMIN_SETTINGS = {
 # -------------------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # ✅ لخدمة static
     "django.contrib.sessions.middleware.SessionMiddleware",
     "listings.middleware.ForceArabicMiddleware",
     "django.middleware.locale.LocaleMiddleware",
@@ -98,7 +98,7 @@ MIDDLEWARE = [
 ]
 
 # -------------------------------
-# قوالب
+# القوالب
 # -------------------------------
 ROOT_URLCONF = "scraplink.urls"
 
@@ -173,22 +173,18 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # -------------------------------
 AUTH_USER_MODEL = "accounts.CustomUser"
 
-# ✅ بعد تسجيل الدخول
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/"  # بعد تسجيل الدخول
+LOGOUT_REDIRECT_URL = "/accounts/login/"  # بعد تسجيل الخروج
 
-# ✅ بعد تسجيل الخروج
-LOGOUT_REDIRECT_URL = "/accounts/login/"
-
-# ✅ تسجيل الدخول باستخدام البريد أو الجوال
 AUTHENTICATION_BACKENDS = [
-    "accounts.backends.EmailOrPhoneBackend",         # ← مخصص لتسجيل الدخول بالبريد أو الجوال
-    "django.contrib.auth.backends.ModelBackend",     # ← الافتراضي (احتياطي)
+    "accounts.backends.EmailOrPhoneBackend",         # تسجيل الدخول بالبريد أو الجوال
+    "django.contrib.auth.backends.ModelBackend",     # الافتراضي
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # -------------------------------
-# إعدادات البريد (للتجربة)
+# إعدادات البريد (تجريبية)
 # -------------------------------
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
