@@ -23,3 +23,7 @@ def services_view(request):
 @login_required(login_url='accounts:login')
 def sales_view(request):
     return render(request, 'core/sales.html')
+
+
+
+
