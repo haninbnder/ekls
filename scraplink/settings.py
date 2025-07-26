@@ -18,6 +18,7 @@ ALLOWED_HOSTS = [host.strip() for host in os.getenv("ALLOWED_HOSTS", "").split("
 # التطبيقات المثبتة
 # -------------------------------
 INSTALLED_APPS = [
+    "corsheaders",  # ✅ مضاف لدعم CORS
     "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -85,8 +86,9 @@ JAZZMIN_SETTINGS = {
 # Middleware
 # -------------------------------
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",  # ✅ يجب أن يكون أول واحد
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",  # ✅ لخدمة static
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "listings.middleware.ForceArabicMiddleware",
     "django.middleware.locale.LocaleMiddleware",
@@ -96,6 +98,11 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+# -------------------------------
+# CORS (مطلوب لتشغيل Flutter Web)
+# -------------------------------
+CORS_ALLOW_ALL_ORIGINS = True  # أو استخدمي CORS_ALLOWED_ORIGINS لاحقًا
 
 # -------------------------------
 # القوالب
@@ -173,12 +180,12 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # -------------------------------
 AUTH_USER_MODEL = "accounts.CustomUser"
 
-LOGIN_REDIRECT_URL = "/"  # بعد تسجيل الدخول
-LOGOUT_REDIRECT_URL = "/accounts/login/"  # بعد تسجيل الخروج
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/accounts/login/"
 
 AUTHENTICATION_BACKENDS = [
-    "accounts.backends.EmailOrPhoneBackend",         # تسجيل الدخول بالبريد أو الجوال
-    "django.contrib.auth.backends.ModelBackend",     # الافتراضي
+    "accounts.backends.EmailOrPhoneBackend",
+    "django.contrib.auth.backends.ModelBackend",
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
