@@ -1,0 +1,16 @@
+﻿*           text=auto
+
+# استخدمي LF للكود (متوافق مع لينكس/Render)
+*.py   text eol=lf
+*.html text eol=lf
+*.css  text eol=lf
+*.js   text eol=lf
+*.json text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+*.sh   text eol=lf
+
+# ملفات ويندوز تبقى CRLF
+*.bat  text eol=crlf
+*.cmd  text eol=crlf
+*.ps1  text eol=crlf
