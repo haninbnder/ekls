@@ -2,24 +2,45 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-# تحميل متغيرات البيئة من ملف .env
+# --------------------------------------------------
+# تحميل متغيرات البيئة من ملف .env (محليًا فقط)
+# --------------------------------------------------
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# -------------------------------
-# متغيرات البيئة
-# -------------------------------
+# --------------------------------------------------
+# متغيرات البيئة والأمان
+# --------------------------------------------------
 SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-secret-key")
 DEBUG = os.getenv("DEBUG", "False") == "True"
-ALLOWED_HOSTS = [host.strip() for host in os.getenv("ALLOWED_HOSTS", "").split(",") if host.strip()]
 
-# -------------------------------
+# ALLOWED_HOSTS من البيئة، وإن لم تُحدَّد نضيف localhost و Render
+_env_hosts = [h.strip() for h in os.getenv("ALLOWED_HOSTS", "").split(",") if h.strip()]
+if _env_hosts:
+    ALLOWED_HOSTS = _env_hosts
+else:
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".onrender.com"]
+
+# CSRF_TRUSTED_ORIGINS من البيئة، مع قيمة افتراضية تدعم Render
+_env_csrf = [o.strip() for o in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if o.strip()]
+if _env_csrf:
+    CSRF_TRUSTED_ORIGINS = _env_csrf
+else:
+    # لاحظ أن Django يتطلب https:// في القيم
+    CSRF_TRUSTED_ORIGINS = [
+        "https://*.onrender.com",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+    ]
+
+# --------------------------------------------------
 # التطبيقات المثبتة
-# -------------------------------
+# --------------------------------------------------
 INSTALLED_APPS = [
-    "corsheaders",  # ✅ مضاف لدعم CORS
+    "corsheaders",  # لدعم CORS
     "jazzmin",
+
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -36,17 +57,18 @@ INSTALLED_APPS = [
     "userproducts",
     "useritems",
     "user_devices",
+    # أضِفِ "rest_framework" إن كنتِ تستخدمين DRF في الـ views/serializers
+    # "rest_framework",
 ]
 
-# -------------------------------
-# إعدادات Jazzmin
-# -------------------------------
+# --------------------------------------------------
+# إعدادات Jazzmin (كما هي)
+# --------------------------------------------------
 JAZZMIN_SETTINGS = {
     "site_title": "لوحة إدارة سكربلينك",
     "site_header": "إدارة سكربلينك",
     "site_brand": "SKRAP LINK",
     "welcome_sign": "مرحباً بك في لوحة التحكم",
-    "copyright": "جميع الحقوق محفوظة © 2025",
     "site_logo": "/static/images/logo.png",
     "site_icon": "/static/images/logo.png",
     "login_logo": "/static/images/logo.png",
@@ -82,13 +104,17 @@ JAZZMIN_SETTINGS = {
     "language_chooser": False,
 }
 
-# -------------------------------
+# --------------------------------------------------
 # Middleware
-# -------------------------------
+# --------------------------------------------------
+# الترتيب الموصى به لـ WhiteNoise و CORS:
+# Security -> WhiteNoise -> (Cors) -> Session -> Locale -> Common -> ...
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",  # ✅ يجب أن يكون أول واحد
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+
+    "corsheaders.middleware.CorsMiddleware",
+
     "django.contrib.sessions.middleware.SessionMiddleware",
     "listings.middleware.ForceArabicMiddleware",
     "django.middleware.locale.LocaleMiddleware",
@@ -99,14 +125,24 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-# -------------------------------
-# CORS (مطلوب لتشغيل Flutter Web)
-# -------------------------------
-CORS_ALLOW_ALL_ORIGINS = True  # أو استخدمي CORS_ALLOWED_ORIGINS لاحقًا
+# --------------------------------------------------
+# CORS (يمكن تقييدها لاحقًا عبر البيئة)
+# --------------------------------------------------
+# مؤقتًا يسمح للجميع إذا لم تُحدَّد قائمة عبر البيئة
+CORS_ALLOW_ALL_ORIGINS = os.getenv("CORS_ALLOW_ALL_ORIGINS", "True") == "True"
 
-# -------------------------------
-# القوالب
-# -------------------------------
+# بديل أكثر أمانًا: حدّدي origins عبر CORS_ALLOWED_ORIGINS
+_env_cors = [o.strip() for o in os.getenv("CORS_ALLOWED_ORIGINS", "").split(",") if o.strip()]
+if _env_cors:
+    CORS_ALLOW_ALL_ORIGINS = False
+    CORS_ALLOWED_ORIGINS = _env_cors
+
+# إن احتجتِ الكوكيز عبر CORS
+CORS_ALLOW_CREDENTIALS = os.getenv("CORS_ALLOW_CREDENTIALS", "False") == "True"
+
+# --------------------------------------------------
+# القوالب و WSGI
+# --------------------------------------------------
 ROOT_URLCONF = "scraplink.urls"
 
 TEMPLATES = [
@@ -127,13 +163,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "scraplink.wsgi.application"
 
-# -------------------------------
+# --------------------------------------------------
 # قاعدة البيانات
-# -------------------------------
+# --------------------------------------------------
 DATABASES = {
     "default": {
         "ENGINE": os.getenv("DB_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": os.getenv("DB_NAME", BASE_DIR / "db.sqlite3"),
+        "NAME": os.getenv("DB_NAME", str(BASE_DIR / "db.sqlite3")),
         "USER": os.getenv("DB_USER", ""),
         "PASSWORD": os.getenv("DB_PASSWORD", ""),
         "HOST": os.getenv("DB_HOST", ""),
@@ -141,9 +177,9 @@ DATABASES = {
     }
 }
 
-# -------------------------------
+# --------------------------------------------------
 # تحقق كلمة المرور
-# -------------------------------
+# --------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -151,9 +187,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-# -------------------------------
+# --------------------------------------------------
 # اللغة والتوقيت
-# -------------------------------
+# --------------------------------------------------
 LANGUAGE_CODE = "ar"
 TIME_ZONE = "Asia/Riyadh"
 USE_I18N = True
@@ -163,23 +199,23 @@ USE_TZ = True
 LANGUAGES = [("ar", "العربية")]
 LOCALE_PATHS = [BASE_DIR / "locale"]
 
-# -------------------------------
-# static/media
-# -------------------------------
+# --------------------------------------------------
+# static / media و WhiteNoise
+# --------------------------------------------------
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [BASE_DIR / "static"]  # إن لم يوجد مجلد static محليًا يمكنك إزالة هذا
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+# تخزين مضغوط مع manifest (مناسب للإنتاج مع collectstatic)
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# -------------------------------
+# --------------------------------------------------
 # مصادقة ومسارات
-# -------------------------------
+# --------------------------------------------------
 AUTH_USER_MODEL = "accounts.CustomUser"
-
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
 
@@ -190,14 +226,14 @@ AUTHENTICATION_BACKENDS = [
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# -------------------------------
-# إعدادات البريد (تجريبية)
-# -------------------------------
+# --------------------------------------------------
+# البريد (تجريبي)
+# --------------------------------------------------
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-# -------------------------------
-# أمان
-# -------------------------------
+# --------------------------------------------------
+# أمان إضافي للإنتاج
+# --------------------------------------------------
 SECURE_SSL_REDIRECT = os.getenv("SECURE_SSL_REDIRECT", "False") == "True"
 SESSION_COOKIE_SECURE = os.getenv("SESSION_COOKIE_SECURE", "False") == "True"
 CSRF_COOKIE_SECURE = os.getenv("CSRF_COOKIE_SECURE", "False") == "True"
